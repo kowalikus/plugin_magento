@@ -1,4 +1,4 @@
-# PayLane OpenCart plugin
+# PayLane Magento plugin
 
 The PayLane Magento plugin allows for a seamless integration with our payment gateway. This plugin has been tested and is regularly maintained by PayLane. If you notice any bugs, please report them.
 
