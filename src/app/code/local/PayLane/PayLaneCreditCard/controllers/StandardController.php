@@ -44,10 +44,10 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 		$paylanecreditcard = Mage::getSingleton("paylanecreditcard/standard");
 
 		if (!is_null($this->getHttpVariable('status')))
-		{
+		{			
 			$status = $this->getHttpVariable('status');
 			if (self::STATUS_ERROR === $status)
-			{
+			{				
 				if( !is_null($this->getHttpVariable('error_text')))
 				{
 					// an error message
@@ -167,7 +167,7 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 		if ($status == false)
 		{
 			// an error message
-	    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true);
+	    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true, true);
 
 	    	session_write_close();
 	    	$this->_redirect('checkout/onepage/failure');
@@ -185,7 +185,7 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 			if ($result == false)
 			{
 				// an error message
-		    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true);
+		    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true, true);
 
 		    	session_write_close();
 		    	$this->_redirect('checkout/onepage/failure');
@@ -195,7 +195,7 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 			if (isset($result->ERROR))
 			{
 				// an error message
-		    	$paylanecreditcard->addComment($result->ERROR->error_description, true);
+		    	$paylanecreditcard->addComment($result->ERROR->error_description, true, true);
 
 		    	session_write_close();
 		    	$this->_redirect('checkout/onepage/failure');
@@ -226,7 +226,7 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 						if ($result == false)
 						{
 							// an error message
-					    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true);
+					    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true, true);
 
 					    	session_write_close();
 					    	$this->_redirect('checkout/onepage/failure');
@@ -236,7 +236,7 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 						if (isset($result->ERROR))
 						{
 							// an error message
-					    	$paylanecreditcard->addComment($result->ERROR->error_description, true);
+					    	$paylanecreditcard->addComment($result->ERROR->error_description, true, true);
 
 					    	session_write_close();
 					    	$this->_redirect('checkout/onepage/failure');
@@ -278,7 +278,7 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 			if ($result == false)
 			{
 				// an error message
-		    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true);
+		    	$paylanecreditcard->addComment("Error processing your payment... Please try again later.", true, true);
 
 		    	session_write_close();
 		    	$this->_redirect('checkout/onepage/failure');
@@ -287,8 +287,7 @@ class PayLane_PayLaneCreditCard_StandardController extends Mage_Core_Controller_
 
 			if (isset($result->ERROR))
 			{
-				// an error message
-		    	$paylanecreditcard->addComment($result->ERROR->error_description, true);
+		    	$paylanecreditcard->addComment($result->ERROR->error_description, true, true);
 
 		    	session_write_close();
 		    	$this->_redirect('checkout/onepage/failure');

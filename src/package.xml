@@ -6,7 +6,7 @@
     <license>GNU General Public License (GPL)</license>
     <channel>community</channel>
     <extends/>
-    <summary>PayLane extension for all major credit and debit cards, direct debits, PayPal, and many other payment methods.</summary>
+    <summary>PayLane extension for all major credit and debit cards, PayPal, and many other payment methods.</summary>
     <description>PayLane Extension&#xD;
 &#xD;
 PayLane extension allows to integrate seamlessly with the PayLane online payments processor. &#xD;
@@ -15,7 +15,7 @@ You'll be able to accept payments on your website or redirect customers to the p
 With PayLane, you'll be able to accept&#xD;
 &#xD;
 - credit cards (including Visa, MasterCard, American Express, JCB, Diners),&#xD;
-- debits cards (including Visa Electron, Maestro),&#xD;
+- s cards (including Visa Electron, Maestro),&#xD;
 - other payment methods (including Giropay, iDEAL, PayPal and many more).&#xD;
 &#xD;
 &#xD;

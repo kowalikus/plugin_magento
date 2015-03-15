@@ -6,23 +6,27 @@
  * Created on 2011-10-30
  *
  * @package		paylane-utils-magento
- * @copyright	2011 PayLane Sp. z o.o.
+ * @copyright	2015 PayLane Sp. z o.o.
  * @author		Michal Nowakowski <michal.nowakowski@paylane.com>
- * @version		SVN: $Id$
  */
 
 class PayLane_PayLaneSecureForm_StandardController extends Mage_Core_Controller_Front_Action
 {
+	// PayLane transaction statuses
 	const STATUS_PERFORMED = "PERFORMED";
 	const STATUS_PENDING = "PENDING";
 	const STATUS_CLEARED = "CLEARED";
 	const STATUS_ERROR = "ERROR";
 
+	/**
+	 * List of PayLane notification statuses in the GET/POST response.
+	 * @var array
+	 */
 	private static $transaction_statuses = array(
-			self::STATUS_ERROR,
-			self::STATUS_CLEARED,
-			self::STATUS_PENDING,
-			self::STATUS_PERFORMED,
+		self::STATUS_ERROR,
+		self::STATUS_CLEARED,
+		self::STATUS_PENDING,
+		self::STATUS_PERFORMED,
 	);
 
 	/**
@@ -34,38 +38,6 @@ class PayLane_PayLaneSecureForm_StandardController extends Mage_Core_Controller_
 	}
 
 	/**
-	 * Return HTTP variable depending on module configuration - via POST or GET
-	 *
-	 * @param string $name variable name
-	 * @return string variable value
-	 */
-	public function getHttpVariable($name)
-	{
-		$response_method = Mage::getStoreConfig('payment/paylanesecureform/response_method');
-
-		if ($response_method == "get")
-		{
-
-			if (isset($_GET[$name]))
-			{
-				return $_GET[$name];
-			}
-
-			return null;
-		}
-		else
-		{
-
-			if (isset($_POST[$name]))
-			{
-				return $_POST[$name];
-			}
-
-			return $_POST[$name];
-		}
-	}
-
-	/**
 	 * Check PayLane response and change order status
 	 */
 	public function backAction()
@@ -73,130 +45,98 @@ class PayLane_PayLaneSecureForm_StandardController extends Mage_Core_Controller_
 		$paylanesecureform = Mage::getSingleton("paylanesecureform/standard");
 
 		//values returned from PayLane Secure Form
-		$paylane_data = array();
-
-		if (!is_null($this->getHttpVariable('status')))
+		$paylane_data = array(
+			'status'			=>	$this->getRequest()->getParam('status'),
+			'description'		=>	$this->getRequest()->getParam('description'),
+			'amount'			=>	$this->getRequest()->getParam('amount'),
+			'currency'			=>	$this->getRequest()->getParam('currency'),
+			'hash'				=>	$this->getRequest()->getParam('hash'),
+			'transaction_ids'	=> array(
+				'id_sale'			=> $this->getRequest()->getParam('id_sale'),
+				'id_authorization'	=> $this->getRequest()->getParam('id_authorization'),
+			),
+			'error'				=> array(
+				'id_error'			=> $this->getRequest()->getParam('id_error'),
+				'error_code'		=>	$this->getRequest()->getParam('error_code'),
+				'error_text'		=>	$this->getRequest()->getParam('error_text'),
+			),
+		);
+		
+		if (is_null($paylane_data['status']) || !in_array($paylane_data['status'], self::$transaction_statuses) ||
+			is_null($paylane_data['amount']) || is_null($paylane_data['currency']) ||
+			is_null($paylane_data['hash']) || is_null($paylane_data['description']))
 		{
-			$paylane_data['status'] = $this->getHttpVariable('status');
-			if (!in_array($paylane_data['status'], self::$transaction_statuses))
-			{
-				Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-				return;
-			}
-		}
-		else
-		{
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-			return;
-		}
-
-		if (!is_null($this->getHttpVariable('description')))
-		{
-			$paylane_data['description'] = $this->getHttpVariable('description');
-		}
-		else
-		{
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-			return;
+			return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
 		}
 
-		// get order
-		$order = Mage::getModel('sales/order');
 		$order = Mage::getModel('sales/order')->loadByIncrementId($paylane_data['description']);
 
 		if (is_null($order))
 		{
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("/"));
-			return;
+			return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("/"));
 		}
 
-		if ($paylane_data['status'] == self::STATUS_ERROR)
+		if (self::STATUS_ERROR === $paylane_data['status'])
 		{
-			$msg = '';
+			$error_info = array();
 
-			if (isset($paylane_data['id_error']))
+			if (isset($paylane_data['error']['id_error']))
 			{
-				$msg = "id error : " . $paylane_data['id_error'];
+				$error_info[] = sprintf('ID sale error: %d', $paylane_data['error']['id_error']);
 			}
 
-			$order->addStatusHistoryComment('Status = ' . $paylane_data['status'] . " " . $msg);
+			if (isset($paylane_data['error']['error_code']))
+			{
+				$error_info[] = sprintf('Error code: %d', $paylane_data['error']['error_code']);
+			}
+			
+			if (isset($paylane_data['error']['error_text']))
+			{
+				$error_info[] = sprintf('Error description: %s', $paylane_data['error']['error_code']);
+			}
+			
+			$error_message = sprintf("The transaction failed, here's the error information:<br><br>%s", implode('<br>', $error_info));
+
+			// will be changed later if necessary
+			$order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
+			$order->addStatusHistoryComment($error_message);
 			$order->save();
 
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-			return;
-		}
-
-		if (!is_null($this->getHttpVariable('id_sale')))
-		{
-			$paylane_data['id_sale'] = $this->getHttpVariable('id_sale');
-		}
-
-		if (!is_null($this->getHttpVariable('id_authorization')))
-		{
-			$paylane_data['id_authorization'] = $this->getHttpVariable('id_authorization');
-		}
-
-		if (!is_null($this->getHttpVariable('amount')) && !is_null($this->getHttpVariable('currency')))
-		{
-			$paylane_data['amount'] = $this->getHttpVariable('amount');
-			$paylane_data['currency'] = $this->getHttpVariable('currency');
-		}
-		else
-		{
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-			return;
-		}
-
-		if (!is_null($this->getHttpVariable('hash')))
-		{
-			$paylane_data['hash'] = $this->getHttpVariable('hash');
+			return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
 		}
 
 		// get original order details
 		$original_data = $paylanesecureform->getOriginalPaymentData($paylane_data['description']);
 
 		// check merchant_transaction_id, amount, currency code
-		if ( ($original_data['description'] != $paylane_data['description']) ||
-		     ($original_data['amount'] != $paylane_data['amount']) ||
-		     ($original_data['currency'] != $paylane_data['currency']))
+		if ($original_data['description'] != $paylane_data['description'] ||
+		    $original_data['amount'] != $paylane_data['amount'] ||
+			$original_data['currency'] != $paylane_data['currency'])
 		{
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-			return;
+			return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
 		}
 
-		if (isset($paylane_data['hash']))
+		// compare hash
+		if ($paylane_data['hash'] != $paylanesecureform->calculateRedirectHash($paylane_data))
 		{
-			$redirect_hash = $paylanesecureform->calculateRedirectHash($paylane_data);
-
-			// compare hash
-			if ($paylane_data['hash'] != $redirect_hash)
-			{
-				Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-				return;
-			}
-		}
-		else
-		{
-			// hash was not set!
-			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
-			return;
+			return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
 		}
 
 		$payment = $order->getPayment();
-		$payment->setTransactionId($paylane_data['id_sale']);
+		$payment->setTransactionId($paylane_data['transaction_ids']['id_sale']);
 
 		// set processing status if payment is pending
-		if ($paylane_data['status'] == self::STATUS_PENDING)
+		if (self::STATUS_PENDING === $paylane_data['status'])
 		{
 			$payment->setIsClosed(0);
 			$payment->setIsTransactionClosed(0);
-			$order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
-			$order->addStatusHistoryComment("This sale is now being processed by PayLane. To monitor current sale status please login to PayLane Merchant Panel. id_sale = " . $paylane_data['id_sale']);
+			$order->setStatus(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+			$order->addStatusHistoryComment("This sale is now being processed by PayLane. To monitor current sale status please login to PayLane Merchant Panel. id_sale = " . $paylane_data['transaction_ids']['id_sale']);
 		}
 		else
 		{
 			// ok, now everything is correct, we can change order status
-			$order->setStatus(Mage_Sales_Model_Order::STATE_COMPLETE);
+			$order->setStatus(Mage::getStoreConfig('payment/paylanesecureform/order_status'));
 
 			try
 			{
@@ -222,7 +162,7 @@ class PayLane_PayLaneSecureForm_StandardController extends Mage_Core_Controller_
 			}
 
 			$order->sendNewOrderEmail();
-			$order->addStatusHistoryComment("In PayLane Merchant Panel check if payment was processed correctly id_sale = " . $paylane_data['id_sale']);
+			$order->addStatusHistoryComment("In PayLane Merchant Panel check if payment was processed correctly id_sale = " . $paylane_data['transaction_ids']['id_sale']);
 		}
 
 		$payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_PAYMENT);
@@ -230,7 +170,6 @@ class PayLane_PayLaneSecureForm_StandardController extends Mage_Core_Controller_
 		$payment->save();
 		$order->save();
 
-		Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/success"));
-		return;
+		return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/success"));
 	}
 }

@@ -6,9 +6,8 @@
  * Created on 2011-10-30
  *
  * @package		paylane-utils-magento
- * @copyright	2011 PayLane Sp. z o.o.
+ * @copyright	2015 PayLane Sp. z o.o.
  * @author		Michal Nowakowski <michal.nowakowski@paylane.com>
- * @version		SVN: $Id$
  */
 
 class PayLane_PayLaneSecureForm_Model_Standard extends Mage_Payment_Model_Method_Abstract
@@ -41,15 +40,24 @@ class PayLane_PayLaneSecureForm_Model_Standard extends Mage_Payment_Model_Method
 	 */
 	protected $_isInitializeNeeded = true;
 
-	public function calculateRedirectHash($transaction_data)
+	/**
+	 * Calculates the redirect hash as a security check.
+	 * 
+	 * @param 	array	$data	Transaction data
+	 * @return	string			Calculated hash
+	 */
+	public function calculateRedirectHash(array $data)
 	{
-		// get hash salt from config
-		$hash_salt = Mage::getStoreConfig('payment/paylanesecureform/hash_salt');
-
-		$transaction_id = isset($transaction_data['id_sale']) ? $transaction_data['id_sale'] : $transaction_data['id_authorization'];
-		$local_hash = SHA1($hash_salt . "|" . $transaction_data['status'] . "|" . $transaction_data['description'] . "|" . $transaction_data['amount'] . "|" . $transaction_data['currency'] . "|" . $transaction_id);
-
-		return $local_hash;
+		$payload = implode('|', array(
+			Mage::getStoreConfig('payment/paylanesecureform/hash_salt'),
+			$data['status'],
+			$data['description'],
+			$data['amount'],
+			$data['currency'],
+			$data['transaction_ids']['id_sale'] ?: $data['transaction_ids']['id_authorization']
+		));
+		
+		return sha1($payload);
 	}
 
 	/**
@@ -61,7 +69,6 @@ class PayLane_PayLaneSecureForm_Model_Standard extends Mage_Payment_Model_Method
 	public function getOriginalPaymentData($order_id)
 	{
 		// get order
-		$order = Mage::getModel('sales/order');
 		$order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
 		if (is_null($order))
 		{
@@ -120,7 +127,6 @@ class PayLane_PayLaneSecureForm_Model_Standard extends Mage_Payment_Model_Method
 		}
 
 		// get order
-		$order = Mage::getModel('sales/order');
 		$order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
 		if (is_null($order))
 		{

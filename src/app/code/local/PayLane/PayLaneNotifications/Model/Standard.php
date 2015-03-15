@@ -14,19 +14,19 @@ class PayLane_PayLaneNotifications_Model_Standard extends Mage_Payment_Model_Met
 	 * Payment transaction notification
 	 * @var string
 	 */
-	const TRANSACTION_TYPE_PAYMENT		= 'S';
+	const TRANSACTION_TYPE_PAYMENT = 'S';
 
 	/**
 	 * Refund transaction notification
 	 * @var string
 	 */
-	const TRANSACTION_TYPE_REFUND		= 'R';
+	const TRANSACTION_TYPE_REFUND = 'R';
 
 	/**
 	 * Chargeback transaction notification
 	 * @var string
 	 */
-	const TRANSACTION_TYPE_CHARGEBACK	= 'CB';
+	const TRANSACTION_TYPE_CHARGEBACK = 'CB';
 
 	/**
 	 * Notification data
@@ -104,6 +104,11 @@ class PayLane_PayLaneNotifications_Model_Standard extends Mage_Payment_Model_Met
 	protected function handlePayment(Array $payment)
 	{
 		$transaction = $this->fetchTransactionByTxnId($payment['id_sale']);
+		
+		if (!$transaction)
+		{
+			return false;
+		}
 
 		if ((float) $payment['amount'] !== (float) $transaction->getOrderPaymentObject()->getData('amount_ordered'))
 		{
@@ -149,7 +154,7 @@ class PayLane_PayLaneNotifications_Model_Standard extends Mage_Payment_Model_Met
 	 */
 	protected function finalizeOrder(Mage_Sales_Model_Order $order)
 	{
-		$order->setStatus(Mage_Sales_Model_Order::STATE_COMPLETE);
+		$order->setStatus(Mage::getStoreConfig('payment/paylanenotifications/order_status'));
 		$order->addStatusHistoryComment("PayLane notification received, the transaction was succesfully processed. Order status updated to complete.");
 
 		try
@@ -186,7 +191,7 @@ class PayLane_PayLaneNotifications_Model_Standard extends Mage_Payment_Model_Met
 	 * Fetches the order payment transaction object, based on the gateway transaction ID.
 	 * 
 	 * @param 	integer		$txn_id	PayLane sale ID
-	 * @return	Mage_Sales_Model_Order_Payment_Transaction
+	 * @return	Mage_Sales_Model_Order_Payment_Transaction|bool
 	 */
 	protected function fetchTransactionByTxnId($txn_id)
 	{
@@ -194,6 +199,11 @@ class PayLane_PayLaneNotifications_Model_Standard extends Mage_Payment_Model_Met
 		$transactions->getSelect()->where('txn_id = ?', $txn_id);
 
 		$transaction = $transactions->fetchItem();
+		if (!$transaction)
+		{
+			return false;
+		}
+		
 		$transaction->setOrderPaymentObject($transaction->getOrderPaymentObject());
 
 		return $transaction;

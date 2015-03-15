@@ -72,7 +72,7 @@ class PayLane_PayLanePayPal_Model_Standard extends Mage_Payment_Model_Method_Abs
 		}
 				
 		// change order status to complete
-		$order->setStatus('complete');
+		$order->setStatus(Mage::getStoreConfig('payment/paylanepaypal/order_status'));
 				
 		try 
 		{
@@ -164,14 +164,15 @@ class PayLane_PayLanePayPal_Model_Standard extends Mage_Payment_Model_Method_Abs
 		
 		return $payment->getAdditionalInformation('id_paypal_checkout');
 	}
-	
+
 	/**
 	 * Add comment to order history
-	 * 
-	 * @param string $comment Comment (i.e. failure description)
-	 * @param boolean $send_notification Send notification to user?
+	 *
+	 * @param	string	$comment 			Comment (i.e. failure description)
+	 * @param	bool	$send_notification	Send notification to user?
+	 * @param 	bool	$cancel_order		Whether the order should be cancelled
 	 */
-	public function addComment($comment, $send_notification = false)
+	public function addComment($comment, $send_notification = false, $cancel_order = false)
 	{	
 		// get order id
 		$order_id = Mage::getSingleton('checkout/session')->getLastRealOrderId();
@@ -190,7 +191,33 @@ class PayLane_PayLanePayPal_Model_Standard extends Mage_Payment_Model_Method_Abs
 		
 		$order->addStatusHistoryComment($comment, $send_notification);
 		$order->sendNewOrderEmail();
+		
+		if ($cancel_order)
+		{
+			$order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
+		}
+		
 		$order->save();
+	}
+
+	/**
+	 * Calculates the redirect hash as a security check.
+	 * 
+	 * @param 	array	$data	Transaction data
+	 * @return	string			Calculated hash
+	 */
+	public function calculateRedirectHash(array $data)
+	{
+		$payload = implode('|', array(
+			Mage::getStoreConfig('payment/paylanepaypal/hash_salt'),
+			$data['status'],
+			$data['description'],
+			$data['amount'],
+			$data['currency'],
+			$data['transaction_ids']['id_sale'] ?: $data['error']['id_error']
+		));
+		
+		return sha1($payload);
 	}
 	
 	/**

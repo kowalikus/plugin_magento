@@ -26,6 +26,7 @@
 				<sort_order>1005</sort_order>
 				<active>0</active>
 				<token></token>
+				<order_status>pending</order_status>
 			</paylanenotifications>
 		</payment>
 	</default> 
