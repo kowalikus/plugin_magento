@@ -33,7 +33,7 @@
                 <direct_login>DIRECT LOGIN HERE</direct_login>
                 <direct_password>DIRECT PASSWORD HERE</direct_password>
                 <sort_order>1002</sort_order>
-                <response_method>post</response_method>
+                <response_method>get</response_method>
             </paylanepaypal>
          </payment>
     </default>
