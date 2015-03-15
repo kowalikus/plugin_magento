@@ -56,7 +56,8 @@ class PayLane_PayLaneNotifications_Model_Standard extends Mage_Payment_Model_Met
 	 */
 	public function isTokenValid()
 	{
-		return $this->notification_data['token'] === Mage::getStoreConfig('payment/paylanenotifications/token');
+		return isset($this->notification_data['token']) &&
+				$this->notification_data['token'] === Mage::getStoreConfig('payment/paylanenotifications/token');
 	}
 
 	/**

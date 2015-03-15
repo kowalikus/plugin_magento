@@ -1,0 +1,58 @@
+<?php $_code=$this->getMethodCode() ?>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <label for="<?php echo $_code ?>_card_number" class="required"><em>*</em><?php echo $this->__('Card number:') ?></label>
+        <span class="input-box">
+            <input type="text" title="<?php echo $this->__('Card number:') ?>" class="input-text required-entry" id="<?php echo $_code ?>_card_number" name="payment[card_number]"/>
+        </span>
+    </li>
+    
+    <li>
+        <label for="<?php echo $_code ?>_security_code" class="required"><em>*</em><?php echo $this->__('Security code (CVV/CVC/CID):') ?></label>
+        <span class="input-box">
+            <input type="text" title="<?php echo $this->__('Security code (CVV/CVC/CID):') ?>" class="input-text required-entry" id="<?php echo $_code ?>_security_code" name="payment[security_code]"/>
+        </span>
+    </li>
+    
+    <li>
+        <label for="<?php echo $_code ?>_credit_card_expiration" class="required"><em>*</em><?php echo $this->__('Credit card expiration:') ?></label>
+		<div class="input-box">
+        	<div class="v-fix">
+             	<select id="expiration_month" name="payment[expiration_month]" class="month required-entry">
+                	<option value=""></option>
+                	<option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="v-fix">
+            	<select id="expiration_year" name="payment[expiration_year]" class="year required-entry">
+                	<option value=""></option>
+                    <?php
+						$current_year = date("Y");
+						for ($i = $current_year; $i <= $current_year + 12; $i++)
+						{
+						        echo "<option value=\"" . $i . "\">" . $i . "</option>\n";
+						}
+					?>
+                </select>
+            </div>
+        </div>
+    </li>
+    
+    <li>
+        <label for="<?php echo $_code ?>_name_on_card" class="required"><em>*</em><?php echo $this->__('Name on card:') ?></label>
+        <span class="input-box">
+            <input type="text" title="<?php echo $this->__('Name on card:') ?>" class="input-text required-entry" id="<?php echo $_code ?>_name_on_card" name="payment[name_on_card]"/>
+        </span>
+    </li>
+</ul>

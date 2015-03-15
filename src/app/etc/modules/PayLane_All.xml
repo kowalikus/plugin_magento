@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<modules>
-		<PayLane_PayLaneDirectDebit>
-			<active>true</active>
-			<codePool>local</codePool>
-		</PayLane_PayLaneDirectDebit>
-		
+	<modules>		
 		<PayLane_PayLanePayPal>
 			<active>true</active>
 			<codePool>local</codePool>
