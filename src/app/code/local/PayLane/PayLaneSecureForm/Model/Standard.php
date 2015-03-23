@@ -69,7 +69,7 @@ class PayLane_PayLaneSecureForm_Model_Standard extends Mage_Payment_Model_Method
 	public function getOriginalPaymentData($order_id)
 	{
 		// get order
-		$order = Mage::getModel('sales/order')->loadByIncrementId($order_id);
+		$order = Mage::getModel('sales/order')->load($order_id);
 		if (is_null($order))
 		{
 			Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("/"));
@@ -84,9 +84,9 @@ class PayLane_PayLaneSecureForm_Model_Standard extends Mage_Payment_Model_Method
 
 		$data = array();
 
-		if (!is_null($order_data['increment_id']))
+		if (!is_null($order_data['entity_id']))
 		{
-			$data['description'] = $order_data['increment_id'];
+			$data['description'] = $order_data['entity_id'];
 		}
 
 		if (!is_null($order_data['grand_total']))
@@ -181,9 +181,9 @@ class PayLane_PayLaneSecureForm_Model_Standard extends Mage_Payment_Model_Method
 			$data['customer_state'] = $billing_address_data['region'];
 		}
 
-		if (!is_null($order_data['increment_id']))
+		if (!is_null($order_data['entity_id']))
 		{
-			$data['description'] = $order_data['increment_id'];
+			$data['description'] = $order_data['entity_id'];
 		}
 
 		if (!is_null($order_data['grand_total']))

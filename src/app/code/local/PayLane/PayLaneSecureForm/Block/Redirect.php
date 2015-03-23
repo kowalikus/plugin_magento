@@ -36,7 +36,7 @@ class PayLane_PayLaneSecureForm_Block_Redirect extends Mage_Core_Block_Abstract
 			$form->addField($key, 'hidden', array('name' => $key, 'value' => $value));
 		}
 		
-		$html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script language="JavaScript" type="text/javascript">var t = setTimeout("document.paylanesecureform_checkout.submit();", 2000);</script></head>';
+		$html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>ut("document.paylanesecureform_checkout.submit();", 2000);</script></head>';
 		$html.= 'You are being redirected to PayLane Secure Form...';
 		$html.= $form->toHtml();
 		$html.= '</body></html>';	

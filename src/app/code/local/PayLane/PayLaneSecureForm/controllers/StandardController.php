@@ -69,7 +69,7 @@ class PayLane_PayLaneSecureForm_StandardController extends Mage_Core_Controller_
 			return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl("checkout/onepage/failure"));
 		}
 
-		$order = Mage::getModel('sales/order')->loadByIncrementId($paylane_data['description']);
+		$order = Mage::getModel('sales/order')->load($paylane_data['description']);
 
 		if (is_null($order))
 		{
