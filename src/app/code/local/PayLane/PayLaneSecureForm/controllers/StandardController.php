@@ -92,7 +92,7 @@ class PayLane_PayLaneSecureForm_StandardController extends Mage_Core_Controller_
 			
 			if (isset($paylane_data['error']['error_text']))
 			{
-				$error_info[] = sprintf('Error description: %s', $paylane_data['error']['error_code']);
+				$error_info[] = sprintf('Error description: %s', $paylane_data['error']['error_text']);
 			}
 			
 			$error_message = sprintf("The transaction failed, here's the error information:<br><br>%s", implode('<br>', $error_info));
