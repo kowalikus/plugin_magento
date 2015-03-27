@@ -417,7 +417,7 @@ class PayLane_PayLaneCreditCard_Model_Standard extends Mage_Payment_Model_Method
 	 * @param 	bool	$cancel_order		Whether the order should be cancelled
 	 */
 	public function addComment($comment, $send_notification = false, $cancel_order = false)
-	{	
+	{
 		// get order id
 		$order_id = Mage::getSingleton('checkout/session')->getLastRealOrderId();
 		if (is_null($order_id))
@@ -433,11 +433,14 @@ class PayLane_PayLaneCreditCard_Model_Standard extends Mage_Payment_Model_Method
 		}
 		
 		$order->addStatusHistoryComment($comment, $send_notification);
-		$order->sendNewOrderEmail();
 		
 		if ($cancel_order)
 		{
 			$order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
+		}
+		else
+		{
+			$order->sendNewOrderEmail();
 		}
 		
 		$order->save();
