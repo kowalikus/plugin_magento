@@ -1,0 +1,63 @@
+<?php
+/**
+ * Allows redirect to Secure Form
+ * 
+ * @link http://devzone.paylane.pl/secure-form/
+ * @see Endora_PayLane_Block_Form
+ * @author Michał Zabielski <michal.zabielski@endora.pl> http://www.endora.pl
+ */
+?>
+<?php
+    $paymentMethods = $this->getPaymentMethods();
+    $isRecurring = $this->isRecurringItemInCart();
+?>
+<div class="paylane-payment-container">
+    <div id="payment_form_paylane">
+        <div class="paylane-payment-method-container-title"><?php echo $this->__('Choose payment method'); ?>:</div>
+        <div class="paylane-payment-method-container">
+            <ul class="form-list">
+            <?php foreach($paymentMethods as $code => $method): ?>
+                <?php if($this->isPaymentMethodActive($code)): ?>
+                    <?php if( ($isRecurring && $method['recurring'] === true) || !$isRecurring): ?>
+                    <li>
+                        <input type="radio" name="payment[additional_information][paylane_payment_type]" id="paylane_payment_type_<?php echo $code; ?>" value="<?php echo $code; ?>" />
+                        <label for="paylane_payment_type_<?php echo $code; ?>">
+                            <?php if(empty($method['img'])): ?>
+                                <?php echo $this->__($method['label']); ?>
+                            <?php else: ?>
+                                <img src="<?php echo $method['img']; ?>" title="<?php echo $this->__($method['label']); ?>" alt="" />
+                            <?php endif; ?>
+                        </label>
+                    </li>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div id="paylane-payment-method-additional-container"><?php //loaded via AJAX request ?></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    if(jQuery('input[type=radio][name="payment[method]"]:checked').val() === "paylane") {
+        jQuery(".paylane-payment-container").show();
+    }
+    
+    jQuery('input[type=radio][name="payment[method]"]').change(function() {
+       if(this.value === "paylane") {
+           jQuery(".paylane-payment-container").slideDown();
+       } else {
+           jQuery(".paylane-payment-container").slideUp();
+       }
+    });
+    
+    jQuery('input[type=radio][name="payment[additional_information][paylane_payment_type]"]').change(function() {
+        var paymentType = this.value;
+        jQuery.post( "<?php echo Mage::getUrl('paylane/payment/fetchPaymentTemplate'); ?>", { paymentType : paymentType }).done(function (data) {
+            jQuery("#paylane-payment-method-additional-container").html(data);
+        });
+    });
+//]]>
+</script>

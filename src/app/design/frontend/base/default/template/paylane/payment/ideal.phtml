@@ -1,0 +1,21 @@
+<?php
+    /**
+     * @see Endora_PayLane_Block_Payment_Ideal
+     */
+
+    $bankData = $this->getBankCodes();
+?>
+<div class="form-list">
+    <div class="field">
+        <label for="payment_params:bank_code" class="required"><em>*</em><?php echo $this->__('Choose bank'); ?></label>
+        <div class="input-box">
+            <select id="payment_params:bank_code" name="payment_params[bank_code]">
+                <?php
+                  foreach ($bankData as $bank) {
+                    echo sprintf('<option value="%s">%s</option>', $bank['bank_code'], $bank['bank_name']), "\n";
+                  }
+                ?>
+            </select>
+        </div>
+    </div>
+</div>

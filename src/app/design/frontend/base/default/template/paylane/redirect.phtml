@@ -1,0 +1,12 @@
+<?php
+/**
+ * Allows redirect to Secure Form
+ * 
+ * @see http://devzone.paylane.pl/secure-form/
+ * @author Michał Zabielski <michal.zabielski@endora.pl> http://www.endora.pl
+ */
+?>
+<html><body>
+<?php echo $this->getFormHtml(); ?>
+<script type="text/javascript">document.getElementById("paylane_checkout_secureform").submit();</script>
+</body></html>

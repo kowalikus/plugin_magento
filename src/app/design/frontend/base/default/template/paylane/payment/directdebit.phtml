@@ -1,0 +1,32 @@
+<div class="form-list">
+    <div class="field">
+        <label for="payment_params:account_holder" class="required"><em>*</em><?php echo $this->__('Account holder'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:account_holder" name="payment_params[account_holder]" size="30" class="input-text required-entry">
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:account_country" class="required"><em>*</em><?php echo $this->__('Bank account country'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:account_country" name="payment_params[account_country]" size="2" class="input-text required-entry">
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:iban" class="required"><em>*</em><?php echo $this->__('IBAN Number'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:iban" name="payment_params[iban]" size="31" class="input-text required-entry">
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:bic" class="required"><em>*</em><?php echo $this->__('Bank Identifier Code (BIC)'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:bic" name="payment_params[bic]" size="4" class="input-text required-entry">
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:mandate_id" class="required"><em>*</em><?php echo $this->__('Mandate ID'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:mandate_id" name="payment_params[mandate_id]" size="35" class="input-text required-entry">
+        </div>
+    </div>
+</div>

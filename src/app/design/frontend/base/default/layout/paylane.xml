@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <paylane_payment_secureform>
+        <reference name="root">
+            <action method="setTemplate"><template>paylane/empty.phtml</template></action>
+            <block type="paylane/redirect" name="paylane_redirect" template="paylane/redirect.phtml" />
+        </reference>
+    </paylane_payment_secureform>
+    
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>paylane/style.css</name></action>
+        </reference>
+    </checkout_onepage_index>
+    
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="paylane"><name>settings</name><path>paylane/customer/</path><label>PayLane Settings</label></action>
+        </reference>
+    </customer_account>
+    
+    <paylane_customer_index translate="label">
+        <label>PayLane Customer Settings</label>
+        <update handle="customer_account"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="paylane"><title>PayLane Customer Settings</title></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="paylane/customer_account" name="customer_account" template="paylane/customer/account.phtml">
+                <block type="core/template" name="credit_card_form" template="paylane/payment/creditcard/form.phtml" />
+            </block>
+        </reference>
+
+        <reference name="left">
+          <action method="unsetChild"><name>left.permanent.callout</name></action>
+        </reference>
+    </paylane_customer_index>
+</layout>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Endora_PayLane>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Endora_PayLane>
+    </modules>
+</config>

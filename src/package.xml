@@ -1,49 +1,28 @@
 <?xml version="1.0"?>
 <package>
     <name>PayLane_Magento</name>
-    <version>1.0.2</version>
-    <stability>stable</stability>
-    <license>GNU General Public License (GPL)</license>
+    <version>0.1.0</version>
+    <stability>beta</stability>
+    <license uri="http://opensource.org/licenses/MIT">Massachusetts Institute of Technology License (MITL)</license>
     <channel>community</channel>
     <extends/>
-    <summary>PayLane extension for all major credit and debit cards, PayPal, and many other payment methods.</summary>
-    <description>PayLane Extension&#xD;
-&#xD;
-PayLane extension allows to integrate seamlessly with the PayLane online payments processor. &#xD;
-You'll be able to accept payments on your website or redirect customers to the payment provider.&#xD;
-&#xD;
-With PayLane, you'll be able to accept&#xD;
-&#xD;
-- credit cards (including Visa, MasterCard, American Express, JCB, Diners),&#xD;
-- s cards (including Visa Electron, Maestro),&#xD;
-- other payment methods (including Giropay, iDEAL, PayPal and many more).&#xD;
-&#xD;
-&#xD;
-Supported risk management and security services include:&#xD;
-&#xD;
-- 3-D Secure (including Verified by Visa and MasterCard SecureCode),&#xD;
-- AVS (Address Verification Service),&#xD;
-- GeoIP,&#xD;
-- CVV2 and CVC2,&#xD;
-- SSL data encryption.&#xD;
-&#xD;
-PayLane is also Level 1 PCI DSS compliant.&#xD;
-&#xD;
-You'll also be able to choose from over 160 transaction currencies and 20 settlement currencies.&#xD;
-&#xD;
-&#xD;
-Other services include:&#xD;
-&#xD;
-- Recurring payments,&#xD;
-- Dynamic and static transaction descriptors,&#xD;
-- Card Data Storage.&#xD;
-&#xD;
-For more information, please visit paylane.com.</description>
-    <notes>Stable version</notes>
-    <authors><author><name>Dawid Ostapiuk</name><user>paylane</user><email>dawid.ostapiuk@paylane.com</email></author><author><name>Maciej Ko&#x142;ek</name><user>paylane</user><email>maciej.kolek@paylane.com</email></author><author><name>Jan Szewczak</name><user>paylane</user><email>jan.szewczak@paylane.com</email></author></authors>
-    <date>2014-02-11</date>
-    <time>10:28:37</time>
-    <contents><target name="magelocal"><dir name="PayLane"><dir name="PayLaneCreditCard"><dir name="Block"><dir name="Form"><file name="Standard.php" hash="e1fad75a77c0fa5b95d38c7b4f2e3274"/></dir></dir><dir name="Model"><file name="Response.php" hash="8b645afabaac235bcb35650326a467b4"/><file name="Standard.php" hash="63dcb5d6a844ffeafef6ca98adb8202c"/></dir><dir name="controllers"><file name="StandardController.php" hash="9c67b861835948fd7818c9fa075ed0e3"/></dir><dir name="etc"><file name="config.xml" hash="1d27eb53de4f83c046a15c71644fbb41"/><file name="system.xml" hash="02b7e370321cea479c2de519d03d655a"/></dir></dir><dir name="PayLaneDirectDebit"><dir name="Block"><dir name="Form"><file name="Standard.php" hash="982c9bf81584e2610ae60db4f2eee446"/></dir></dir><dir name="Model"><file name="Country.php" hash="e0ab22b1347c66ed458e4b3e1881d61f"/><file name="Standard.php" hash="fd200b91133e6b493aff5ad53ad58a43"/></dir><dir name="controllers"><file name="StandardController.php" hash="18bac21729ead7fedfa310bb9c33d1d8"/></dir><dir name="etc"><file name="config.xml" hash="ab238a914db52eff4c2e7aa47b7fc907"/><file name="system.xml" hash="0ab654d64af8f0b8578a564c2d17f851"/></dir><dir name="sql"><dir name="paylanedirectdebit_setup"><file name="mysql4-install-0.1.0.php" hash="ca7c4c486da52377b7c6a3cff10783b3"/></dir></dir></dir><dir name="PayLanePayPal"><dir name="Model"><file name="Response.php" hash="ce96ef058b2919a5b0479b9c7faf273d"/><file name="Standard.php" hash="cd72888d8da04aeec6487d618f244558"/></dir><dir name="controllers"><file name="StandardController.php" hash="ecef2dea4ec593cb7cf9d4b1cac7c86f"/></dir><dir name="etc"><file name="config.xml" hash="6281e47ee586febcc937a0fc2f18ea56"/><file name="system.xml" hash="3926c901eaae0620cc9e67b67c1e7b10"/></dir></dir><dir name="PayLaneSecureForm"><dir name="Block"><file name="Redirect.php" hash="14ef888ab6a79af296a2d1e0712278a5"/></dir><dir name="Model"><file name="Language.php" hash="7b648305f3f44a76f436d5bcb961262a"/><file name="Response.php" hash="c6e02f4e144f3cc48ee92c33e01a357b"/><file name="Standard.php" hash="5ed813be6d616b8ad116a8fe853b4b7d"/></dir><dir name="controllers"><file name="StandardController.php" hash="4fd35631657875eb3e61ec476ee00388"/></dir><dir name="etc"><file name="config.xml" hash="080a62ea7f8acfdadfb07eec66f87af9"/><file name="system.xml" hash="0b58367e0ff70654dcd1056399fd95ba"/></dir></dir><dir name="common"><file name="PayLaneClient.php" hash="576d824dc8a56a5376578d1fad3803b1"/></dir></dir></target><target name="mageetc"><dir name="modules"><file name="PayLane_All.xml" hash="a2f36aff67aa90926c36eeb2f8fc73aa"/></dir></target><target name="magedesign"><dir name="frontend"><dir name="default"><dir name="default"><dir name="template"><dir name="paylanecreditcard"><dir name="form"><file name="standard.phtml" hash="59b6722d3d96244514fd077463828733"/></dir></dir><dir name="paylanedirectdebit"><dir name="form"><file name="standard.phtml" hash="42c7a66f2c1c380e78ff0bfcc7c46bbf"/></dir></dir></dir></dir></dir></dir></target></contents>
+    <summary>This extension allows you to add PayLane as a new payment method in Magento</summary>
+    <description>The extension adds a new payment method to your shop which gives your customers the possibility to use PayLane system to pay for their orders.&#xD;
+It allows to use recurring payments, credit card authorization, single-click payments and much more.&#xD;
+If you are interested in technical support, e-mail us at it@paylane.com or magento@endora.pl.</description>
+    <notes>- Add credit card payment channel&#xD;
+- Add PayPal payment channel&#xD;
+- Add iDEAL payment channel&#xD;
+- Add bank transfer payment channel&#xD;
+- Add SOFORT Banking payment channel&#xD;
+- Add Direct Debit payment channel&#xD;
+- Implement automatic notifications about payments&#xD;
+- Allow credit card authorization&#xD;
+- Add recurring payments component</notes>
+    <authors><author><name>ENDORA</name><user>EndoraPL</user><email>magento@endora.pl</email></author><author><name>PayLane</name><user>PayLane</user><email>it@paylane.com</email></author></authors>
+    <date>2015-10-14</date>
+    <time>07:03:34</time>
+    <contents><target name="magecommunity"><dir name="Endora"><dir name="PayLane"><dir name="Block"><dir name="Adminhtml"><dir name="Notification"><file name="Url.php" hash="b491c97ac7ca8060126955b8bfde3223"/></dir></dir><dir name="Customer"><file name="Account.php" hash="08f9172d3c0a67efa0224ab88e4a8a08"/></dir><file name="Form.php" hash="06be776bf1aa2bc9eb05102951d8f0e7"/><file name="Info.php" hash="09e95490e5e3ac986c3310dbe48836ba"/><dir name="Payment"><file name="BankTransfer.php" hash="14a260bf8d26801feafedcf58d100d0d"/><file name="CreditCard.php" hash="cab7f3675d88aaa94c3646b561eddd7d"/><file name="DirectDebit.php" hash="65293319e7cc9ea66db5cf389e093cc2"/><file name="Ideal.php" hash="b79f7a64a62814f9aa2cf58faa354e0d"/><file name="PayPal.php" hash="ba9d7453188615938cec8fbc721c4729"/><file name="SecureForm.php" hash="cf9535309d7cd742524b331b7199f78b"/><file name="Sofort.php" hash="aaf6ce265b89185d56eb8742834a0771"/></dir><file name="Redirect.php" hash="7704b9996a4ce1526870d43c3b3cb045"/></dir><dir name="Helper"><file name="Data.php" hash="352b449e21882b12cb84d49756ced739"/><file name="Notification.php" hash="c251b24d81ccce3701f7241a9fe5b4b5"/></dir><dir name="Model"><dir name="Api"><file name="Client.php" hash="4a740e7950563688add55d2238573c64"/><file name="Notification.php" hash="de4044b032810219bc56cb93fc89c4a0"/><dir name="Payment"><file name="BankTransfer.php" hash="f23a8788efe83350717990f17aa607d1"/><file name="CreditCard.php" hash="a65a6dfffa6345bf7980cd678a3ed200"/><file name="DirectDebit.php" hash="3e8975b991bd5821a514a54a734b1132"/><file name="Ideal.php" hash="58e404bf763488a5cdfdfe5466fecb20"/><file name="PayPal.php" hash="90bfc3fb0c111373513a6ba25997839f"/><file name="SecureForm.php" hash="f2e53045afaf4ec90040673619ac1c0c"/><file name="Sofort.php" hash="06b840e2728d0393c75dd9e148caa4d6"/><dir name="Type"><file name="Abstract.php" hash="da38cad3a485bb714a547f949d313e90"/></dir></dir><file name="Refund.php" hash="c9535f2cf997dabbf3b5a828614530d8"/><file name="Resale.php" hash="59017bfede23168a8d1d0ffbe7f03fd0"/></dir><dir name="Interface"><file name="PaymentTypeExtendedInfo.php" hash="f005bc12af5050eda938a2f5a80236ad"/></dir><file name="Observer.php" hash="4ad654b32b9112a9c68a40bfe915389a"/><file name="Payment.php" hash="eb9ff93443f4af87e28e1036cdfe2d3e"/><dir name="Resource"><file name="Setup.php" hash="2f425d97cb103e7a1204464874c71283"/></dir><dir name="Source"><dir name="Avs"><dir name="Check"><file name="Level.php" hash="f76217494c46a5818035f88f050031e0"/></dir></dir><dir name="Gateway"><file name="Type.php" hash="ca8618440dfdccd1d80902ab537deb64"/></dir><dir name="Notification"><file name="Mode.php" hash="4a908cfc0dddb86c4fa48c0624e5390e"/></dir><dir name="Order"><file name="Status.php" hash="b85eb3793a9d8eede03c958793737d7e"/></dir><dir name="Redirect"><file name="Version.php" hash="fc24a211a510b8103c5be2f9d08e7417"/></dir></dir></dir><dir name="controllers"><file name="CustomerController.php" hash="b41789b114e929a5d52a437d61388a00"/><file name="NotificationController.php" hash="5ec895288f43914b6ace5d877cb5f540"/><file name="PaymentController.php" hash="d60ed9bccb6185d67834a311846b3fa9"/></dir><dir name="etc"><file name="config.xml" hash="d81a32d6021499ac6b53844e23b88293"/><file name="system.xml" hash="d33e8cd088730d30baee95b0c766810e"/></dir><dir name="sql"><dir name="paylane_setup"><file name="install-0.1.0.php" hash="a23c9f7d3284978bd0669ae444aedc3b"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Endora_PayLane.xml" hash="21f68dbfe96b2045ab9b5e1a6c2e52f7"/></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="base"><dir name="default"><dir name="template"><dir name="paylane"><file name="form.phtml" hash="d41d8cd98f00b204e9800998ecf8427e"/><file name="info.phtml" hash="75e1c24c1080f58b9fc5d0aa9f4db5e1"/></dir></dir></dir></dir></dir><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="paylane.xml" hash="36f7e64d3e49a389e3494fe8ae093224"/></dir><dir name="template"><dir name="paylane"><dir name="customer"><file name="account.phtml" hash="4304270ba499911e68ded48bce15560c"/></dir><file name="empty.phtml" hash="45d25a0ef85fa6de271e61a9d76db4c5"/><file name="form.phtml" hash="1505a077aa777b6de124bf493639399a"/><file name="info.phtml" hash="00b405c4f6f8e23e086e1ba2100059b1"/><dir name="payment"><file name="banktransfer.phtml" hash="c6c49d9eab6261269990e7ff0f6bfe04"/><dir name="creditcard"><file name="form.phtml" hash="5ccd16ebdf4a4dd3d66586c8f36db00d"/></dir><file name="creditcard.phtml" hash="dd37d0b8ae1a5d4f3c1e5d34ad935273"/><file name="directdebit.phtml" hash="94e2a1c3139a8fc8675c183d1e85db56"/><file name="ideal.phtml" hash="771945c3f9b07505390754f762819be2"/><file name="paypal.phtml" hash="18aff72598fc73b80b223cccb0a1d713"/><file name="secureform.phtml" hash="8cfd06e9b48f16bdbe9037c364a3e5d8"/><file name="sofort.phtml" hash="a0c661e5d92b01602188dec75927c829"/></dir><file name="redirect.phtml" hash="7f891fad1eb61edcc33b3cf9f54a3911"/></dir></dir></dir></dir></dir></target><target name="mageskin"><dir name="frontend"><dir name="base"><dir name="default"><dir name="paylane"><file name="style.css" hash="586293871591cf1bb458c855b4a3b457"/></dir></dir></dir></dir></target><target name="magelib"><dir name="paylane"><dir name="client"><dir name="paylane"><file name="PayLaneRestClient.php" hash="b63633cb8349c53db85af6d12dc60533"/></dir></dir></dir></target><target name="magelocale"><dir><dir name="pl_PL"><file name="Endora_PayLane.csv" hash="e20e9bb29fab8d6348c8c8e8f89270cf"/></dir></dir></target></contents>
     <compatible/>
-    <dependencies><required><php><min>4.0.0</min><max>5.6.0</max></php></required></dependencies>
+    <dependencies><required><php><min>5.0.0</min><max>5.6.8</max></php></required></dependencies>
 </package>

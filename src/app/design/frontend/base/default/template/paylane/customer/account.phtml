@@ -1,0 +1,39 @@
+<?php
+    /**
+     * Template to show creadit card authorization settings
+     * in customer My Account page
+     * 
+     * @author Michał Zabielski <michal.zabielski@endora.pl> http://www.endora.pl
+     * @see Endora_PayLane_Block_Customer_Account
+     */
+?>
+<?php $authStatus = $this->isCustomerAuthorized(); ?>
+<div class="page-title">
+    <h1><?php echo $this->__('PayLane Customer Settings') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<div class="fieldset">
+    <?php 
+        echo $this->__('Authorization  status') . ': ';
+        
+        if($authStatus): ?>
+            <span style="color: green;"><?php echo $this->__('Authorized'); ?></span>  
+    <?php else: ?>
+            <span style="color: red;"><?php echo $this->__('Unauthorized'); ?></span>  
+    <?php endif; ?>
+</div>
+<div class="fieldset">
+    <?php echo $this->__('If you want to authorize or reauthorize with new data fill the form below'); ?>
+</div>
+<form action="<?php echo $this->getUrl('paylane/customer/authorizeCreditCard') ?>" method="post" autocomplete="off" id="form-validate" class="scaffold-form" enctype="multipart/form-data">
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Credit Card Authorization') ?></h2>
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+
+        <?php echo $this->getChildHtml('credit_card_form'); ?>
+    </div>
+    <div class="buttons-set">
+        <button type="submit" title="<?php echo $this->__('Authorize') ?>" class="button"><span><span><?php echo $this->__('Authorize') ?></span></span></button>
+        <button type="button" onclick="setLocation('<?php echo $this->getUrl('paylane/customer/unauthorizeCreditCard'); ?>')" title="<?php echo $this->__('Unauthorize') ?>" class="button"><span><span><?php echo $this->__('Unauthorize') ?></span></span></button>
+    </div>
+</form>

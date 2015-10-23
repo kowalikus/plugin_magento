@@ -1,0 +1,24 @@
+<?php
+/**
+ * Display list of payment types for bank transfer
+ * 
+ * @author Michał Zabielski <michal.zabielski@endora.pl> http://www.endora.pl
+ */
+?>
+<?php $paymentTypes = $this->getPaymentTypes(); ?>
+<div class="paylane-payment-method-container-title"><?php echo $this->__('Choose payment type'); ?>:</div>
+<ul class="form-list payment-types-list">
+<?php foreach($paymentTypes as $code => $data): ?>
+    <li>
+        <input type="radio" name="payment_params[payment_type]" id="payment_type_<?php echo $code; ?>" value="<?php echo $code; ?>">
+        <label for="payment_type_<?php echo $code; ?>">
+            <?php if(empty($data['img'])): ?>
+                <?php echo $this->__($data['label']); ?>
+            <?php else: ?>
+                <img src="<?php echo $data['img']; ?>" title="<?php echo $this->__($data['label']); ?>" alt="" />
+            <?php endif; ?>
+        </label>
+    </li>
+<?php endforeach; ?>
+</ul>
+<div class="clearfix"></div>

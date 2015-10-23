@@ -1,0 +1,22 @@
+<?php
+    /**
+     * @see Endora_PayLane_Block_Info
+     */
+    $infos = $this->getMoreInfo();
+?>
+<table class="form-list">
+    <tr>
+        <td class="label"><?php echo $this->__('Method'); ?>:</td>
+        <td class="value"><strong><?php echo $this->htmlEscape($this->getMethod()->getTitle()); ?></strong></td>
+    </tr>
+<?php if ($infos):?>
+<?php foreach ($infos as $label => $info):?>
+    <tr>
+        <td class="label"><?php echo $this->escapeHtml(Mage::helper('paylane')->__($label))?>:</td>
+        <td class="value"><strong><?php echo nl2br(implode($this->getValueAsArray($info, true), "\n"))?></strong></td>
+    </tr>
+<?php endforeach; ?>
+<?php endif;?>
+</table>
+<br>
+<?php echo $this->getChildHtml(); 

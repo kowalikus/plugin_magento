@@ -1,0 +1,45 @@
+<?php 
+    $helper = Mage::helper('paylane');
+    $months = $helper->generateMonthsNumber();
+    $years = $helper->generateCreditCardValidYears();
+?>
+<div class="form-list">
+    <div class="field">
+        <label for="payment_params:card_numer" class="required"><em>*</em><?php echo $this->__('Card number'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:card_numer" name="payment_params[card_number]" size="19" class="input-text required-entry">
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:name_on_card" class="required"><em>*</em><?php echo $this->__('Name on card'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:name_on_card" name="payment_params[name_on_card]" size="50" class="input-text required-entry">
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:expiration_month" class="required"><em>*</em><?php echo $this->__('Expiration month'); ?></label>
+        <div class="input-box">
+            <select id="payment_params:expiration_month" name="payment_params[expiration_month]" class="required-entry">
+                <?php foreach($months as $month): ?>
+                    <option value="<?php echo $month; ?>"><?php echo $month; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:expiration_year" class="required"><em>*</em><?php echo $this->__('Expiration year'); ?></label>
+        <div class="input-box">
+            <select id="payment_params:expiration_year" name="payment_params[expiration_year]" class="required-entry">
+            <?php foreach($years as $year): ?>
+                <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <div class="field">
+        <label for="payment_params:card_code" class="required"><em>*</em><?php echo $this->__('CVV/CVC'); ?></label>
+        <div class="input-box">
+            <input type="text" id="payment_params:card_code" name="payment_params[card_code]" size="4" class="input-text required-entry">
+        </div>
+    </div>
+</div>
